@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "docker:build": "docker build --platform linux/amd64 -t barx .",
+    "docker:run": "docker run --rm --platform linux/amd64 -p 8080:8080 barx"
   },
   "dependencies": {
     "next": "16.4.5",
