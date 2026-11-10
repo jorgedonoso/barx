@@ -1,13 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DollarSign, ShoppingCart, Package, TrendingUp } from "lucide-react";
+import {
+  DollarSign,
+  ShoppingCart,
+  Package,
+  TrendingUp,
+  ArrowUp,
+  ArrowDown,
+  Minus,
+} from "lucide-react";
+
+interface MetricValue {
+  value: number;
+  change_percent: number | null;
+}
 
 interface Metrics {
-  total_orders: number;
-  total_items: number;
-  gross_revenue: number;
-  average_item_value: number;
+  period: string;
+  previous_period: string | null;
+  total_orders: MetricValue;
+  total_items: MetricValue;
+  gross_revenue: MetricValue;
+  average_item_value: MetricValue;
 }
 
 const cards = [
@@ -68,6 +83,13 @@ export default function KeyMetrics() {
     fetchMetrics();
   }, []);
 
+  const periodLabel = metrics
+    ? new Date(`${metrics.period}-01T00:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      })
+    : "";
+
   return (
     <section className="my-6">
       <div className="mb-6">
@@ -75,7 +97,9 @@ export default function KeyMetrics() {
           Key Metrics
         </h2>
         <p className="mt-1 text-sm text-gray-500">
-          Overview of eCommerce performance
+          {periodLabel
+            ? `Performance for ${periodLabel}`
+            : "Monthly performance"}
         </p>
       </div>
 
@@ -88,7 +112,19 @@ export default function KeyMetrics() {
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map((card) => {
           const Icon = card.icon;
-          const value = metrics?.[card.key];
+          const metric = metrics?.[card.key];
+          const change = metric?.change_percent;
+
+          const isPositive =
+            change !== null && change !== undefined && change > 0;
+          const isNegative =
+            change !== null && change !== undefined && change < 0;
+
+          const TrendIcon = isPositive
+            ? ArrowUp
+            : isNegative
+              ? ArrowDown
+              : Minus;
 
           return (
             <div
@@ -106,8 +142,33 @@ export default function KeyMetrics() {
               </div>
 
               <div className="mt-7 text-3xl font-semibold tracking-tight text-gray-900">
-                {value !== undefined ? card.format(value) : "—"}
+                {metric ? card.format(metric.value) : "—"}
               </div>
+
+              {change !== null && change !== undefined ? (
+                <div className="mt-3 flex items-center gap-3">
+                  <span
+                    className={`inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium ${
+                      isPositive
+                        ? "bg-green-100 text-green-700"
+                        : isNegative
+                          ? "bg-red-100 text-red-700"
+                          : "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    <TrendIcon size={12} strokeWidth={2.5} />
+                    {Math.abs(change).toFixed(1)}%
+                  </span>
+
+                  <span className="text-xs text-gray-500">
+                    vs previous month
+                  </span>
+                </div>
+              ) : (
+                <p className="mt-3 text-xs text-gray-400">
+                  No previous month comparison
+                </p>
+              )}
             </div>
           );
         })}
