@@ -1,4 +1,5 @@
 import KeyMetrics from "@/features/dashboard/key-metrics/key-metrics";
+import MonthlySales from "@/features/dashboard/monthly-sales/monthly-sales";
 import TopProductCategories from "@/features/dashboard/top-product-categories/top-product-categories";
 
 export default function Home() {
@@ -21,6 +22,8 @@ export default function Home() {
           <KeyMetrics />
 
           <TopProductCategories />
+
+          <MonthlySales />
         </header>
       </div>
     </main>
