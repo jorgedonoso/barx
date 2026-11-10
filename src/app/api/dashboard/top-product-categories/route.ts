@@ -1,8 +1,18 @@
 import { NextResponse } from "next/server";
 import { bigquery } from "@/lib/bigquery";
+import { redis } from "@/lib/redis";
+
+const CACHE_KEY = "dashboard:top-product-categories";
+const CACHE_TTL = 300;
 
 export async function GET() {
   try {
+    const cached = await redis.get(CACHE_KEY);
+
+    if (cached) {
+      return NextResponse.json(cached);
+    }
+
     const query = `
       SELECT
         p.category,
@@ -24,12 +34,14 @@ export async function GET() {
 
     const [rows] = await bigquery.query({ query });
 
-    return NextResponse.json(
-      rows.map((row) => ({
-        category: row.category,
-        revenue: Number(row.revenue),
-      })),
-    );
+    const data = rows.map((row) => ({
+      category: row.category,
+      revenue: Number(row.revenue),
+    }));
+
+    await redis.set(CACHE_KEY, data, { ex: CACHE_TTL });
+
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Top product categories error:", error);
 

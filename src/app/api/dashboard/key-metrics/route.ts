@@ -1,8 +1,18 @@
 import { NextResponse } from "next/server";
 import { bigquery } from "@/lib/bigquery";
+import { redis } from "@/lib/redis";
+
+const CACHE_KEY = "dashboard:key-metrics";
+const CACHE_TTL = 300;
 
 export async function GET() {
   try {
+    const cached = await redis.get(CACHE_KEY);
+
+    if (cached) {
+      return NextResponse.json(cached);
+    }
+
     const query = `
       SELECT
         COUNT(DISTINCT order_id) AS total_orders,
@@ -17,9 +27,13 @@ export async function GET() {
 
     const [rows] = await bigquery.query({ query });
 
-    return NextResponse.json(rows[0]);
+    const data = rows[0];
+
+    await redis.set(CACHE_KEY, data, { ex: CACHE_TTL });
+
+    return NextResponse.json(data);
   } catch (error) {
-    console.error("BigQuery error:", error);
+    console.error("BigQuery metrics error:", error);
 
     return NextResponse.json(
       { error: "Failed to retrieve metrics" },
