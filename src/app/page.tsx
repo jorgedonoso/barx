@@ -1,4 +1,5 @@
 import KeyMetrics from "@/features/dashboard/key-metrics/key-metrics";
+import TopProductCategories from "@/features/dashboard/top-product-categories/top-product-categories";
 
 export default function Home() {
   return (
@@ -18,6 +19,8 @@ export default function Home() {
           </p>
 
           <KeyMetrics />
+
+          <TopProductCategories />
         </header>
       </div>
     </main>
