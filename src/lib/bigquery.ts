@@ -1,5 +1,5 @@
 import { BigQuery } from "@google-cloud/bigquery";
 
 export const bigquery = new BigQuery({
-  projectId: "barx-514218",
+  projectId: process.env.GCP_PROJECT_ID,
 });
