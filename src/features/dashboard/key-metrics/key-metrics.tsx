@@ -53,7 +53,7 @@ export default function KeyMetrics() {
   useEffect(() => {
     async function fetchMetrics() {
       try {
-        const response = await fetch("/api/metrics");
+        const response = await fetch("/api/dashboard/key-metrics");
 
         if (!response.ok) {
           throw new Error("Failed to fetch metrics");
