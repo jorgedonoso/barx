@@ -42,11 +42,12 @@ export default function TopProductCategories() {
   }, []);
 
   return (
-    <section className="my-6 rounded border border-gray-200 bg-white p-6">
+    <section className="my-6">
       <div className="mb-6">
-        <h2 className="text-lg font-semibold tracking-tight">
+        <h2 className="text-lg font-semibold tracking-tight border-b border-b-purple-300">
           Top Product Categories
         </h2>
+
         <p className="mt-1 text-sm text-gray-500">
           Revenue by product category
         </p>
