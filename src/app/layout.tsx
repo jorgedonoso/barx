@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Barx | eCommerce Dashboard",
-  description: "eCommerce analytics dashboard powered by Google Cloud.",
+  title: "Barx | E-commerce Analytics",
+  description: "E-commerce analytics dashboard powered by Google Cloud.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

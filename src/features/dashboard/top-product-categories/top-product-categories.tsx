@@ -1,5 +1,6 @@
 "use client";
 
+import Section from "@/features/ui/Section";
 import { useEffect, useState } from "react";
 import {
   BarChart,
@@ -10,6 +11,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { tooltipStyles } from "../tooltip-styles";
 
 interface CategoryRevenue {
   category: string;
@@ -42,17 +44,10 @@ export default function TopProductCategories() {
   }, []);
 
   return (
-    <section className="my-6">
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold tracking-tight border-b border-b-purple-300">
-          Top Product Categories
-        </h2>
-
-        <p className="mt-1 text-sm text-gray-500">
-          Revenue by product category
-        </p>
-      </div>
-
+    <Section
+      title="Top Product Categories"
+      description="Revenue by product category"
+    >
       {loading ? (
         <div className="flex h-[380px] items-center justify-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-purple-100 border-t-purple-500" />
@@ -91,6 +86,7 @@ export default function TopProductCategories() {
               />
 
               <Tooltip
+                {...tooltipStyles}
                 formatter={(value) => [
                   `$${Number(value).toLocaleString("en-US", {
                     minimumFractionDigits: 2,
@@ -98,11 +94,6 @@ export default function TopProductCategories() {
                   })}`,
                   "Revenue",
                 ]}
-                contentStyle={{
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "6px",
-                  fontSize: "13px",
-                }}
               />
 
               <Bar
@@ -115,6 +106,6 @@ export default function TopProductCategories() {
           </ResponsiveContainer>
         </div>
       )}
-    </section>
+    </Section>
   );
 }

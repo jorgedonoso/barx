@@ -1,5 +1,6 @@
 "use client";
 
+import Section from "@/features/ui/Section";
 import { useEffect, useState } from "react";
 import {
   CartesianGrid,
@@ -10,6 +11,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { tooltipStyles } from "../tooltip-styles";
 
 interface MonthlySales {
   month: string;
@@ -46,20 +48,16 @@ export default function MonthlySales() {
     });
 
   return (
-    <section className="my-8">
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold tracking-tight border-b border-b-purple-300">
-          Monthly Sales Trend
-        </h2>
-        <p className="mt-1 text-sm text-gray-500">
-          Revenue and order volume over the past 12 months
-        </p>
-      </div>
-
+    <Section
+      title="Monthly Sales Trend"
+      description="Revenue and order volume over the past 12 months"
+    >
       {error ? (
         <p className="text-sm text-red-600">Unable to load monthly sales.</p>
       ) : data.length === 0 ? (
-        <p className="text-sm text-gray-400">Loading chart...</p>
+        <div className="flex h-[380px] items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-purple-100 border-t-purple-500" />
+        </div>
       ) : (
         <div className="rounded border border-gray-200 bg-white p-6">
           <div className="h-80">
@@ -68,7 +66,7 @@ export default function MonthlySales() {
                 data={data}
                 margin={{ top: 10, right: 15, left: 15, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" vertical={true} />
 
                 <XAxis
                   dataKey="month"
@@ -95,6 +93,7 @@ export default function MonthlySales() {
                 />
 
                 <Tooltip
+                  {...tooltipStyles}
                   labelFormatter={(label) => formatMonth(String(label))}
                   formatter={(value, name) => [
                     name === "Revenue"
@@ -144,6 +143,6 @@ export default function MonthlySales() {
           </div>
         </div>
       )}
-    </section>
+    </Section>
   );
 }

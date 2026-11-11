@@ -10,6 +10,7 @@ import {
   ArrowDown,
   Minus,
 } from "lucide-react";
+import Section from "@/features/ui/Section";
 
 interface MetricValue {
   value: number;
@@ -83,26 +84,8 @@ export default function KeyMetrics() {
     fetchMetrics();
   }, []);
 
-  const periodLabel = metrics
-    ? new Date(`${metrics.period}-01T00:00:00`).toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-      })
-    : "";
-
   return (
-    <section className="my-6">
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold tracking-tight border-b border-b-purple-300">
-          Key Metrics
-        </h2>
-        <p className="mt-1 text-sm text-gray-500">
-          {periodLabel
-            ? `Performance for ${periodLabel}`
-            : "Monthly performance"}
-        </p>
-      </div>
-
+    <Section title="Key Metrics" description="Monthly performance">
       {error && (
         <p className="mb-5 text-sm text-red-600">
           Unable to load dashboard metrics.
@@ -173,6 +156,6 @@ export default function KeyMetrics() {
           );
         })}
       </div>
-    </section>
+    </Section>
   );
 }
