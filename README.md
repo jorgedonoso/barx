@@ -1,6 +1,10 @@
-# Barx
+# Barx E-Commerce Analytics
 
-Analytics dashboard demo built with Next.js and the Google Cloud Platform.
+Project showcasing GCP architecture, containerized deployment, and automated CI/CD, built after earning the Google Cloud ACE certification.
+
+## Demo
+
+![Demo](./docs/demo.png)
 
 ## Architecture
 
