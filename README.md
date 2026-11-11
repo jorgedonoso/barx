@@ -1,15 +1,17 @@
 # Barx E-Commerce Analytics
 
-Project showcasing GCP architecture, containerized deployment, and automated CI/CD, built after earning the Google Cloud ACE certification.
+A simple Next.js and BigQuery dashboard demonstrating a scalable GCP architecture: containerized on Cloud Run, deployed through automated CI/CD. Built after earning the Google Cloud ACE certification.
 
 ## Demo
+
+https://barx-lbxqsqz6ga-wn.a.run.app/
 
 ![Demo](./docs/demo.png)
 
 ## Architecture
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph CI/CD ["CI/CD Pipeline"]
         GH[GitHub Actions] -->|OIDC / WIF| AR[Artifact Registry]
     end
@@ -18,7 +20,7 @@ flowchart LR
 
     User([Browser]) --> CR
 
-    CR -->|1. Cache lookup| Redis[(Redis<br/>5-min TTL)]
+    CR -->|Cache lookup| Redis[(Redis<br/>5-min TTL)]
     Redis -.->|Cache hit| CR
 
     CR -->|Cache miss| BQ[(BigQuery)]
@@ -36,14 +38,14 @@ flowchart LR
 
 **Hosting**
 
-- Artifact Registry and Cloud Run (`us-west4`)
+- Artifact Registry and Cloud Run
 - Autoscaling: 0–2 instances
 - Resources: 1 vCPU, 512 MiB memory
 
 **Data**
 
 - BigQuery for analytics data
-- Redis for API response caching (5-minute TTL)
+- Redis for API response caching
 - Secret Manager for Redis credentials
 
 **CI/CD**
@@ -52,7 +54,30 @@ flowchart LR
 
 ## Local Development
 
+**Prerequisites:** Node.js, Google Cloud CLI, access to the GCP project, and an Upstash Redis database.
+
+Authenticate with Google Cloud:
+
+```bash
+gcloud auth application-default login
+gcloud config set project YOUR_PROJECT_ID
+```
+
+Configure `.env.local`:
+
+```env
+GCP_PROJECT_ID=your-project-id
+UPSTASH_REDIS_REST_URL=your-redis-url
+UPSTASH_REDIS_REST_TOKEN=your-redis-token
+```
+
+Run locally:
+
 ```bash
 npm install
 npm run dev
 ```
+
+## Author
+
+Jorge Donoso
