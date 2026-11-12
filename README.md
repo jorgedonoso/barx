@@ -1,10 +1,10 @@
 # Barx E-Commerce Analytics
 
-A simple Next.js and BigQuery dashboard demonstrating a scalable GCP architecture: containerized on Cloud Run, deployed through automated CI/CD. Built after earning the Google Cloud ACE certification.
+A simple Next.js and BigQuery dashboard demonstrating a scalable GCP architecture: containerized on Cloud Run, deployed through automated CI/CD, with Vertex AI-powered insights.
 
 ## Demo
 
-https://barx-lbxqsqz6ga-wn.a.run.app/
+[https://barx-lbxqsqz6ga-wn.a.run.app/](https://barx-lbxqsqz6ga-wn.a.run.app/)
 
 ![Demo](./docs/demo.png)
 
@@ -25,6 +25,9 @@ flowchart TB
 
     CR -->|Cache miss| BQ[(BigQuery)]
     BQ -.->|Query data & update cache| CR
+
+    CR -->|Generate insights| VAI[Vertex AI]
+    VAI -.->|AI-generated insights| CR
 
     SM[Secret Manager] -.->|Credentials| CR
 ```
@@ -47,6 +50,11 @@ flowchart TB
 - BigQuery for analytics data
 - Redis for API response caching
 - Secret Manager for Redis credentials
+
+**AI**
+
+- Vertex AI (Gemini) for AI-generated business insights
+- Google Cloud IAM authentication using the Cloud Run runtime service account
 
 **CI/CD**
 
