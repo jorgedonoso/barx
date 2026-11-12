@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { tooltipStyles } from "../tooltip-styles";
+import { Spinner } from "@/features/ui/Spinner";
 
 interface MonthlySales {
   month: string;
@@ -55,9 +56,7 @@ export default function MonthlySales() {
       {error ? (
         <p className="text-sm text-red-600">Unable to load monthly sales.</p>
       ) : data.length === 0 ? (
-        <div className="flex h-[380px] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-purple-100 border-t-purple-500" />
-        </div>
+        <Spinner />
       ) : (
         <div className="rounded border border-gray-200 bg-white p-6">
           <div className="h-80">

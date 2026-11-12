@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { tooltipStyles } from "../tooltip-styles";
+import { Spinner } from "@/features/ui/Spinner";
 
 interface CategoryRevenue {
   category: string;
@@ -49,9 +50,7 @@ export default function TopProductCategories() {
       description="Revenue by product category"
     >
       {loading ? (
-        <div className="flex h-[380px] items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-purple-100 border-t-purple-500" />
-        </div>
+        <Spinner />
       ) : error ? (
         <p className="text-sm text-red-600">Unable to load category data.</p>
       ) : (
