@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { gemini } from "@/lib/gemini";
+import { getGeminiClient } from "@/lib/gemini";
 import { redis } from "@/lib/redis";
 
 const CACHE_KEY = "dashboard:ai-insights";
@@ -75,7 +75,7 @@ export async function GET(request: Request) {
       Sentiment must be "positive", "negative", or "neutral".
     `;
 
-    const response = await gemini.models.generateContent({
+    const response = await getGeminiClient().models.generateContent({
       model: "gemini-3.5-flash-lite",
       contents: prompt,
       config: {
