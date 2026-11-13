@@ -7,7 +7,7 @@ export function getGeminiClient() {
     cachedGemini = new GoogleGenAI({
       enterprise: true,
       project: process.env.GCP_PROJECT_ID,
-      location: "global",
+      location: process.env.GCP_CLOUD_REGION,
     });
   }
 
